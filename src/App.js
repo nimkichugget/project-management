@@ -1,13 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 // import { RegisterProject } from '../src/pages/RegisterProject.js';
-import RegisterProject from '../src/pages/RegisterProject.js';
-import ManageResources from '../src/pages/ManageResources.js';
-import ViewSubmissions from '../src/pages/ViewSubmissions.js';
-import GradeSubmissions from '../src/pages/GradeSubmissions.js';
-import JoinProject from '../src/pages/JoinProject.js';
-import ViewProject from '../src/pages/ViewProject.js';
-import MySubmissions from '../src/pages/MySubmissions.js';
+import RegisterProject from "../src/pages/RegisterProject.js";
+import ManageResources from "../src/pages/ManageResources.js";
+import ViewSubmissions from "../src/pages/ViewSubmissions.js";
+import GradeSubmissions from "../src/pages/GradeSubmissions.js";
+import JoinProject from "../src/pages/JoinProject.js";
+import ViewProject from "../src/pages/ViewProject.js";
+import MySubmissions from "../src/pages/MySubmissions.js";
+import Home from "../src/Views/Home/Home.js";
+import AppBar from "./components/AppBar/AppBar.js";
 
 /*
 // Placeholder Authentication Context (replace with your implementation)
@@ -24,23 +27,65 @@ const App = () => {
     setIsAuthenticated(false);
   };
   */
- const App = () => {
+const App = () => {
   return (
     //<AuthContext.Provider value={{ isAuthenticated, handleLogin, handleLogout }}>
-      <Router>
-        {/* Protected routes (replace with your authentication logic) */}
-        <Routes>
-          <Route path="/register-project" exact element={<RegisterProject />} /> {/* Protected */}
-          <Route path="/manage-resources/:projectId" exact element={<ManageResources />} /> {/* Protected */}
-          <Route path="/view-submissions/:projectId" exact element={<ViewSubmissions />} /> {/* Protected */}
-          <Route path="/grade-submissions/:projectId" exact element={<GradeSubmissions />} /> {/* Protected */}
-          {/* Public routes */}
-          <Route path="/" exact element={<JoinProject />} />
-          <Route path="/join-project" exact element={<JoinProject />} />
-          <Route path="/view-project/:projectId" exact element={<ViewProject />} />
-          <Route path="/my-submissions/:projectId" exact element={<MySubmissions />} />
-        </Routes>
-      </Router>
+    <>
+      <Box bg={"white"}>
+        <AppBar width="100%" name={"Project Management Console"} />
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          // marginLeft: isCollapsed ? "100px" : `${drawerWidth}px`,
+          transition: "margin-left 0.3s ease",
+        }}
+      >
+        <Router>
+          {/* Protected routes (replace with your authentication logic) */}
+          <Routes>
+            <Route
+              path="/register-project"
+              exact
+              element={<RegisterProject />}
+            />{" "}
+            {/* Protected */}
+            <Route
+              path="/manage-resources/:projectId"
+              exact
+              element={<ManageResources />}
+            />{" "}
+            {/* Protected */}
+            <Route
+              path="/view-submissions/:projectId"
+              exact
+              element={<ViewSubmissions />}
+            />{" "}
+            {/* Protected */}
+            <Route
+              path="/grade-submissions/:projectId"
+              exact
+              element={<GradeSubmissions />}
+            />{" "}
+            {/* Protected */}
+            {/* Public routes */}
+            <Route path="/" exact element={<Home />} />
+            <Route path="/join-project" exact element={<JoinProject />} />
+            <Route
+              path="/view-project/:projectId"
+              exact
+              element={<ViewProject />}
+            />
+            <Route
+              path="/my-submissions/:projectId"
+              exact
+              element={<MySubmissions />}
+            />
+          </Routes>
+        </Router>
+      </Box>
+    </>
     //</AuthContext.Provider>
   );
 };
