@@ -73,7 +73,7 @@ const App = () => {
             <Route path="/" exact element={<Home />} />
             <Route path="/join-project" exact element={<JoinProject />} />
             <Route
-              path="/view-project/:projectId"
+              path="/view-project"
               exact
               element={<ViewProject />}
             />

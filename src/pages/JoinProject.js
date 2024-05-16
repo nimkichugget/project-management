@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TeamCard } from '../components/TeamCard'; // Assuming component imports
-import { TeamForm } from '../components/TeamForm';
+import { TeamForm } from '../components/FormTeam';
 // import { fetchTeams, joinTeam } from '../utils/auth'; // Assuming API functions
 
 const JoinProject = () => {

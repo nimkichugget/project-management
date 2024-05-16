@@ -113,6 +113,7 @@ const Home = (props) => {
                 }}
                 key={e}
                 w="32%"
+                onClick={() => { window.location.href = "/view-project"; }}
               >
                 <Text fontFamily={"Jost"} fontWeight={"700"} fontSize={24}>
                   {e}
