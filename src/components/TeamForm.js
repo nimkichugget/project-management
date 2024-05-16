@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Form, FormControl, FormLabel, RadioGroup, Radio, Input, Button } from '@chakra-ui/react';
+import { FormControl, FormLabel, RadioGroup, Radio, Input, Button, Select } from '@chakra-ui/react';
 import { fetchTeams, createTeam, joinTeam } from '../utils/auth'; // Assuming API functions
 
 const TeamForm = ({ onSubmit }) => {
-  const [createTeamMode, setCreateTeamMode] = useState(true);
-  const [teamName, setTeamName] = useState('');
-  const [existingTeams, setExistingTeams] = useState([]);
-  const [selectedTeamId, setSelectedTeamId] = useState(null);
+  // const [createTeamMode, setCreateTeamMode] = useState(true);
+  // const [teamName, setTeamName] = useState('');
+  // const [existingTeams, setExistingTeams] = useState([]);
+  // const [selectedTeamId, setSelectedTeamId] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const teams = await fetchTeams();
-      setExistingTeams(teams);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const teams = await fetchTeams();
+  //     setExistingTeams(teams);
+  //   };
+  //   fetchData();
+  // }, []);
 
-  const handleCreateTeam = async (e) => {
-    e.preventDefault();
-    await createTeam(teamName);
-    onSubmit('create', teamName); // Inform parent component about team creation
-  };
+  // const handleCreateTeam = async (e) => {
+  //   e.preventDefault();
+  //   await createTeam(teamName);
+  //   onSubmit('create', teamName); // Inform parent component about team creation
+  // };
 
-  const handleJoinTeam = async (e) => {
-    e.preventDefault();
-    if (selectedTeamId) {
-      await joinTeam(selectedTeamId);
-      onSubmit('join', selectedTeamId); // Inform parent component about team joining
-    }
-  };
+  // const handleJoinTeam = async (e) => {
+  //   e.preventDefault();
+  //   if (selectedTeamId) {
+  //     await joinTeam(selectedTeamId);
+  //     onSubmit('join', selectedTeamId); // Inform parent component about team joining
+  //   }
+  // };
 
   return (
-    <Form>
-      <RadioGroup value={createTeamMode} onChange={(val) => setCreateTeamMode(val)}>
+    <>
+      {/* <RadioGroup value={createTeamMode} onChange={(val) => setCreateTeamMode(val)}>
         <FormControl display="flex" alignItems="center">
           <Radio value={true}>Create Team</Radio>
           <FormLabel ml={2}>Create a new team</FormLabel>
@@ -62,8 +62,8 @@ const TeamForm = ({ onSubmit }) => {
       )}
       <Button mt={4} type="submit" disabled={createTeamMode ? !teamName : !selectedTeamId}>
         {createTeamMode ? 'Create Team' : 'Join Team'}
-      </Button>
-    </Form>
+      </Button> */}
+    </>
   );
 };
 
