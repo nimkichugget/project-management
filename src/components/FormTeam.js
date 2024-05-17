@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, Text, FormControl, Button, Input } from "@chakra-ui/react";
 import PersonIcon from "@mui/icons-material/Person";
+import FindMembers from './FindMembers.js';
 
 const ParticipantInput = ({ participantNumber }) => (
   <Flex
@@ -37,6 +38,11 @@ const ParticipantInput = ({ participantNumber }) => (
 );
 
 const TeamForm = ({ onSubmit }) => {
+  const [isOpen, setIsOpen] = useState(false); // Initial state for modal visibility
+
+    const onOpen = () => setIsOpen(true); // Function to open the modal
+    const onClose = () => setIsOpen(false); // Function to close the modal
+
   return (
     <Flex w="100%">
       <Flex w="50%" direction={"column"}>
@@ -133,12 +139,15 @@ const TeamForm = ({ onSubmit }) => {
                 fontSize: "16px",
               }}
               _hover={{ opacity: 0.8 }}
+              onClick={onOpen}
             >
               Find Members
             </Button>
           </Flex>
         </Flex>
       </Flex>
+      {/* Render FindMembers conditionally based on isOpen state */}
+      {isOpen && (<FindMembers isOpen={isOpen} onClose={onClose} />)} 
     </Flex>
   );
 };

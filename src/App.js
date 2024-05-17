@@ -11,6 +11,7 @@ import ViewProject from "../src/pages/ViewProject.js";
 import MySubmissions from "../src/pages/MySubmissions.js";
 import Home from "../src/Views/Home/Home.js";
 import AppBar from "./components/AppBar/AppBar.js";
+import FindMembers from "./components/FindMembers.js";
 
 /*
 // Placeholder Authentication Context (replace with your implementation)
@@ -76,6 +77,11 @@ const App = () => {
               path="/view-project"
               exact
               element={<ViewProject />}
+            />
+            <Route 
+              path="/find-members"
+              exact
+              element={<FindMembers/>} 
             />
             <Route
               path="/my-submissions/:projectId"

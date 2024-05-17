@@ -1,9 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { Box, Flex, Image, Spacer, Text, Container } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+//import { StarIcon } from "@chakra-ui/icons";
 // import Container from '../../Components/Container/Container';
 // import { Link } from 'react-router-dom';
 // import profile from '../../../Static/profile.jpeg';
+import './AppBar.css'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+library.add(fab);
+
 const AppBar = (props) => {
   return (
     <Container isCollapsed={props.isCollapsed} style={{ padding: "20px 50px" }}>
@@ -12,7 +18,7 @@ const AppBar = (props) => {
         alignItems="center"
         justifyContent={"center"}
       >
-        <StarIcon w="40px" h="40px" />
+        <FontAwesomeIcon icon="fab fa-telegram-plane" style={{color: "#B197FC", height: "40px", width: "40px" }} />
         <Text
           style={{
             margin: "0px 20px",
