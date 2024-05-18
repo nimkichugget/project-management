@@ -143,11 +143,11 @@ const TeamForm = ({ onSubmit }) => {
             >
               Find Members
             </Button>
+            {/* Render FindMembers conditionally based on isOpen state */}
+            {isOpen && (<FindMembers isOpen={isOpen} onClose={onClose} />)}
           </Flex>
         </Flex>
-      </Flex>
-      {/* Render FindMembers conditionally based on isOpen state */}
-      {isOpen && (<FindMembers isOpen={isOpen} onClose={onClose} />)} 
+      </Flex> 
     </Flex>
   );
 };

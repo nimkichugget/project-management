@@ -4,7 +4,6 @@ import { Box, Flex, Image, Spacer, Text, Container } from "@chakra-ui/react";
 // import Container from '../../Components/Container/Container';
 // import { Link } from 'react-router-dom';
 // import profile from '../../../Static/profile.jpeg';
-import './AppBar.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

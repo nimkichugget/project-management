@@ -8,6 +8,8 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FormTeam from "../components/FormTeam";
+import UploadSubmission from "../components/UploadSubmission";
+import ProjectTimeline from "../components/ProjectTimeline";
 
 // const steps = [
 //   { title: "Form a Team", description: "Contact Info" },
@@ -110,7 +112,7 @@ const ViewProject = () => {
       </Flex>
       <Flex p="30px" justifyContent={"center"} alignItems={"center"}>
         <Box sx={{ width: "70%" }}>
-          <Stepper activeStep={activeStep}>
+          <Stepper activeStep={activeStep} colorScheme='purple' >
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};
@@ -118,7 +120,7 @@ const ViewProject = () => {
                 stepProps.completed = false;
               }
               return (
-                <Step key={label} {...stepProps}>
+                <Step key={label} {...stepProps} >
                   <StepLabel {...labelProps}>{label}</StepLabel>
                 </Step>
               );
@@ -145,17 +147,19 @@ const ViewProject = () => {
             <>
               <Flex
                 style={{ margin: "20px", padding: "20px" }}
-                bg="pink"
                 direction={"column"}
-              ></Flex>
+              >
+                <ProjectTimeline />
+              </Flex>
             </>
           ) : activeStep === 2 ? (
             <>
               <Flex
                 style={{ margin: "20px", padding: "20px" }}
-                bg="pink"
                 direction={"column"}
-              ></Flex>
+              >
+                <UploadSubmission />
+              </Flex>
             </>
           ) : null}
           <Box sx={{ display: "flex", flexDirection: "row" }}>
