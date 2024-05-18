@@ -49,10 +49,10 @@ const TeamForm = ({ onSubmit }) => {
         <Text
           style={{
             margin: "0",
-            fontWeight: "bold",
-            fontSize: "24px",
-            color: "lightgray",
-            fontFamily: "Hanken Grotesk",
+            fontWeight: "semibold",
+            fontSize: "20px",
+            color: "gray",
+            fontFamily: "Public Sans",
           }}
         >
           FORM A TEAM
@@ -63,8 +63,8 @@ const TeamForm = ({ onSubmit }) => {
             marginTop: "5px",
             fontWeight: "semibold",
             fontSize: "26px",
-            color: "black",
-            fontFamily: "Hanken Grotesk",
+            color: "#141E28",
+            fontFamily: "Domine",
           }}
         >
           Semester Project Title
@@ -75,17 +75,17 @@ const TeamForm = ({ onSubmit }) => {
             marginTop: "40px",
             fontWeight: "semibold",
             fontSize: "24px",
-            color: "gray",
-            fontFamily: "Hanken Grotesk",
+            color: "#2E455D",
+            fontFamily: "Public Sans",
           }}
         >
-          Prerequisites
+          Pre-requisites
         </Text>
         <ol
           style={{
-            fontFamily: "Hanken Grotesk",
+            fontFamily: "Public Sans",
             fontSize: "18px",
-            color: "gray",
+            color: "#2E455D",
           }}
         >
           <li>Team Size: 4 students</li>

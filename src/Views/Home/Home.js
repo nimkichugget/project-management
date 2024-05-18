@@ -97,7 +97,7 @@ const Home = (props) => {
                 className="parent"
                 direction={"column"}
                 style={{
-                  //   backgroundColor: "#efeafa",
+                  backgroundColor: "linear-gradient(to bottom, white, #D5E5FF)",
                   padding: "20px",
                   // height: "230px",
                   fontSize: "40px",

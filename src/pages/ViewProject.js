@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import FormTeam from "../components/FormTeam";
 import UploadSubmission from "../components/UploadSubmission";
 import ProjectTimeline from "../components/ProjectTimeline";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from '@mui/material/styles';
 
 // const steps = [
 //   { title: "Form a Team", description: "Contact Info" },
@@ -24,6 +26,37 @@ const steps = [
   "Submit Files",
   "View Grades",
 ];
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#6741a0', // Your desired purple shade
+    },
+  },
+  overrides: {
+    MuiStepper: {
+      root: {
+        backgroundColor: 'transparent', // Optional for better contrast
+      },
+      horizontal: {
+        '& .MuiStepConnector-line': {
+          borderColor: '#7c4dff!important', // Adjust connector color
+        },
+      },
+      vertical: {
+        '& .MuiStepConnector-line': {
+          borderColor: '#7c4dff!important', // Adjust connector color
+        },
+        '& .MuiStep-completed .MuiStepIcon-root': {
+          color: '#7c4dff', // Color for completed step icon
+        },
+        '& .MuiStep-active .MuiStepIcon-root': {
+          color: '#7c4dff', // Color for active step icon
+        },
+      },
+    },
+  },
+});
 
 const ViewProject = () => {
   // const { projectId } = useParams();
@@ -106,26 +139,28 @@ const ViewProject = () => {
               fontFamily: "Hanken Grotesk",
             }}
           >
-            CSS3220 - SOFTWARE ENGINEERING
+            CS3212 - SOFTWARE ENGINEERING
           </Text>
         </Flex>
       </Flex>
       <Flex p="30px" justifyContent={"center"} alignItems={"center"}>
         <Box sx={{ width: "70%" }}>
-          <Stepper activeStep={activeStep} colorScheme='purple' >
-            {steps.map((label, index) => {
-              const stepProps = {};
-              const labelProps = {};
-              if (isStepSkipped(index)) {
-                stepProps.completed = false;
-              }
-              return (
-                <Step key={label} {...stepProps} >
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
+          <ThemeProvider theme={theme}>
+            <Stepper activeStep={activeStep} colorScheme='purple' >
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
+                return (
+                  <Step key={label} {...stepProps} >
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+          </ThemeProvider>
           {activeStep === steps.length ? (
             <>
               <Typography sx={{ mt: 2, mb: 1 }}>
