@@ -17,17 +17,21 @@ const AppBar = (props) => {
         alignItems="center"
         justifyContent={"center"}
       >
-        <FontAwesomeIcon icon="fab fa-telegram-plane" style={{color: "#B197FC", height: "40px", width: "40px" }} />
-        <Text
-          style={{
-            margin: "0px 20px",
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "20px",
-          }}
+        <Flex
+          onClick={() => { window.location.href = "/"; }}
         >
-          ProjectPilot
-        </Text>
+          <FontAwesomeIcon icon="fab fa-telegram-plane" style={{color: "#B197FC", height: "40px", width: "40px" }} />
+          <Text
+            style={{
+              margin: "0px 20px",
+              color: "black",
+              fontWeight: "bold",
+              fontSize: "20px",
+            }}
+          >
+            ProjectPilot
+          </Text>
+        </Flex>
         <Spacer />
         <Flex
           alignItems={"center"}
