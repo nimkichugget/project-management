@@ -26,22 +26,24 @@ function UploadSubmission() {
         alignItems={"center"}
         gap="10px"
       >
-        <Button
-          style={{
-            borderRadius: "20px",
-            padding: "8px 18px",
-            backgroundColor: "#6741a0",
-            color: "white",
-            fontFamily: "Hanken Grotesk",
-            fontWeight: "700",
-            border: "1px solid white",
-            fontSize: "16px",
-            marginTop: "40px",
-          }}
-          _hover={{ opacity: 0.8 }}
-        >
-          Upload Submission
-        </Button>
+        <a href="https://forms.office.com/r/uRnrGjNH5D">
+          <Button
+            style={{
+              borderRadius: "20px",
+              padding: "8px 18px",
+              backgroundColor: "#6741a0",
+              color: "white",
+              fontFamily: "Hanken Grotesk",
+              fontWeight: "700",
+              border: "1px solid white",
+              fontSize: "16px",
+              marginTop: "40px",
+            }}
+            _hover={{ opacity: 0.8 }}
+          >
+            Upload Submission
+          </Button>
+        </a>
       </Flex>
     </Flex>
   );

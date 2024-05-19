@@ -11,6 +11,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Avatar from "@mui/material/Avatar";
+import { Tooltip } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -172,12 +173,14 @@ function FindMembers(props) {
                     {/* <Team teamId={currentTeamId} members={members} /> */}
                     <Flex m="20px 0" gap="10px">
                       {members.map((member, index) => (
-                        <Avatar key={index} sx={{ bgcolor: "#6741a0" }}>
-                          {member
-                            .split(" ")
-                            .map((name) => name[0])
-                            .join("")}
-                        </Avatar>
+                        <Tooltip title={member}>
+                          <Avatar key={index} sx={{ color:"#7236FF", bgcolor: "#D5E5FF" }} variant="rounded">
+                            {member
+                              .split(" ")
+                              .map((name) => name[0])
+                              .join("")}
+                          </Avatar>
+                        </Tooltip>
                       ))}
                     </Flex>
                     <Flex

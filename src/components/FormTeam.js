@@ -39,10 +39,10 @@ const ParticipantInput = ({ participantNumber }) => (
 );
 
 const TeamForm = ({ onSubmit }) => {
-  // const [isOpen, setIsOpen] = useState(false); // Initial state for modal visibility
+  //const [isOpen, setIsOpen] = useState(false); // Initial state for modal visibility
 
-  // const onOpen = () => setIsOpen(true); // Function to open the modal
-  // const onClose = () => setIsOpen(false); // Function to close the modal
+  //const onOpen = () => setIsOpen(true); // Function to open the modal
+  //const onClose = () => setIsOpen(false); // Function to close the modal
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -154,7 +154,7 @@ const TeamForm = ({ onSubmit }) => {
               Find Members
             </Button>
             {/* Render FindMembers conditionally based on isOpen state */}
-            {isOpen && (<FindMembers isOpen={isOpen} onClose={onClose} />)}
+            {/* {isOpen && (<FindMembers isOpen={isOpen} onClose={onClose} />)} */}
           </Flex>
         </Flex>
       </Flex>
