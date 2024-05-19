@@ -1,145 +1,228 @@
-import { Flex, Text, Container, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import { Flex, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Avatar from "@mui/material/Avatar";
 
-function FindMembers({ isOpen, onClose }) {
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
 
-    const cards = {
-        Team1: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-        },
-        Team2: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-            member3: "Vineet Kumar",
-            member4: "Vineet Kumar",
-        },
-        Team3: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-            member3: "Vineet Kumar",
-            member4: "Saathvika Jali",
-        },
-        Team4: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-            member3: "Vineet Kumar",
-            member4: "Vineet Kumar",
-        },
-        Team5: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-            member3: "Vineet Kumar",
-            member4: "Vineet Kumar",
-        },
-        Team6: {
-            member1: "Vineet Kumar",
-            member2: "Vineet Kumar",
-            member3: "Vineet Kumar",
-            member4: "Vineet Kumar",
-            isFull: true,
-        },
-    };
-    return (
-        <Modal style={{ position: 'absolute' }} scrollBehavior={'inside'} isOpen={isOpen} onClose={onClose} maxW="300px" maxH="300px" >
-            <ModalOverlay bg="white" />
-            <ModalContent>
-                <ModalHeader>
-                    <Flex
-                        direction="column"
-                        justifyContent={"center"}
-                        alignItems={"center"}
+function FindMembers(props) {
+  const cards = {
+    1: {
+      member1: "Vineet Kumar",
+      member2: "Saathvika Jali",
+    },
+    2: {
+      member1: "Vineet Kumar",
+      member2: "Saathvika Jali",
+      member3: "Vineet Kumar",
+      member4: "Vineet Kumar",
+    },
+    3: {
+      member1: "Vineet Kumar",
+      member2: "Vineet Kumar",
+      member3: "Vineet Kumar",
+      member4: "Saathvika Jali",
+    },
+    4: {
+      member1: "Vineet Kumar",
+      member2: "Vineet Kumar",
+      member3: "Saathvika Jali",
+      member4: "Vineet Kumar",
+    },
+    5: {
+      member1: "Vineet Kumar",
+      member2: "Saathvika Jali",
+      member3: "Vineet Kumar",
+      member4: "Vineet Kumar",
+    },
+    6: {
+      member1: "Vineet Kumar",
+      member2: "Saathvika Jali",
+      member3: "Vineet Kumar",
+      member4: "Vineet Kumar",
+      isFull: true,
+    },
+  };
+  //   const [open, setOpen] = useState(false);
+  const Team = ({ teamId, members }) => (
+    <div>
+      <Text m={0} fontFamily={"Jost"} fontWeight={"700"} fontSize={20}>
+        Team {teamId}
+      </Text>
+      <Flex m="20px 0" gap="10px">
+        {members.map((member, index) => (
+          <Avatar key={index} sx={{ bgcolor: "#6741a0" }}>
+            {member
+              .split(" ")
+              .map((name) => name[0])
+              .join("")}
+          </Avatar>
+        ))}
+      </Flex>
+    </div>
+  );
+
+  //   const [currentTeamId, setCurrentTeamId] = useState(1);
+
+  //   const handleNextTeam = () => {
+  //     setCurrentTeamId((prevId) =>
+  //       prevId < Object.keys(cards).length ? prevId + 1 : 1
+  //     );
+  //   };
+
+  //   const currentTeam = cards[currentTeamId];
+  //   const members = Object.values(currentTeam).filter(
+  //     (value) => typeof value === "string"
+  //   );
+
+  return (
+    <>
+      <BootstrapDialog
+        onClose={props.handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={props.open}
+      >
+        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+          <Flex
+            direction="column"
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Text
+              m={0}
+              style={{
+                fontSize: "28px",
+                // fontFamily: "Hanken Grotesk",
+                fontFamily: "Jost",
+              }}
+            >
+              CURRENT TEAMS
+            </Text>
+          </Flex>
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={props.handleClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          <Flex p="15px" justifyContent={"center"} alignItems={"center"}>
+            <Flex w="90%" wrap="wrap" justifyContent={"space-between"}>
+              {Object.keys(cards).map((e) => {
+                const card = cards[e];
+                const members = Object.values(card).filter(value => typeof value === 'string');
+                return (
+                  <Flex
+                    className="parent"
+                    direction={"column"}
+                    style={{
+                      //   backgroundColor: "#efeafa",
+                      padding: "20px 20px 10px 20px",
+                      // height: "230px",
+                      fontSize: "40px",
+                      boxShadow: "#dddddd 0px 0px 20px 0px",
+                      borderRadius: "20px",
+                      width: "190px",
+                      marginBottom: "25px",
+                      transition: "all 0.4s ease",
+                    }}
+                    _hover={{
+                      backgroundColor: "#efeafa",
+                      boxShadow: "none !important",
+                    }}
+                    key={e}
+                    w="32%"
+                  >
+                    <Text
+                      m={0}
+                      fontFamily={"Jost"}
+                      fontWeight={"700"}
+                      fontSize={20}
                     >
+                      Team {e}
+                    </Text>
+                    {/* <Flex m="20px 0" gap="10px">
+                      <Avatar sx={{ bgcolor: "#6741a0" }}>VK</Avatar>
+                      <Avatar sx={{ bgcolor: "#6741a0" }}>VK</Avatar>
+                      <Avatar sx={{ bgcolor: "#6741a0" }}>VK</Avatar>
+                    </Flex> */}
+                    {/* <Team teamId={currentTeamId} members={members} /> */}
+                    <Flex m="20px 0" gap="10px">
+                      {members.map((member, index) => (
+                        <Avatar key={index} sx={{ bgcolor: "#6741a0" }}>
+                          {member
+                            .split(" ")
+                            .map((name) => name[0])
+                            .join("")}
+                        </Avatar>
+                      ))}
+                    </Flex>
+                    <Flex
+                      style={{
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Flex
+                        style={{
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          alignSelf: "center",
+                          color: "gray",
+                        }}
+                        _hover={{ color: "black !important" }}
+                      >
                         <Text
-                            style={{
-                            fontSize: "40px",
-                            // fontFamily: "Hanken Grotesk",
-                            fontFamily: "Poppins",
-                            }}
+                          m={0}
+                          //   color={"gray"}
+                          fontFamily={"Jost"}
+                          fontWeight={"bold"}
+                          fontSize={16}
                         >
-                            Current teams
+                          Request a slot
                         </Text>
-                        <hr 
-                            style = {{
-                                color: "#d9d9d9",
-                                height: 1,
-                                width: "90%"
-                            }}
+                        <ArrowForwardIcon
+                          style={{ width: "30px", height: "30px" }}
                         />
+                      </Flex>
                     </Flex>
-                </ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                    <Flex p="30px" justifyContent={"center"} alignItems={"center"}>
-                        <Flex my="50px" w="70%" wrap="wrap" justifyContent={"space-between"}>
-                        {Object.keys(cards).map((e) => {
-                            const card = cards[e];
-                            return (
-                            <Flex
-                                className="parent"
-                                direction={"column"}
-                                style={{
-                                //   backgroundColor: "#efeafa",
-                                padding: "20px",
-                                // height: "230px",
-                                fontSize: "40px",
-                                boxShadow: "#dddddd 0px 0px 20px 0px",
-                                borderRadius: "20px",
-                                width: "250px",
-                                marginBottom: "25px",
-                                transition: "all 0.4s ease"
-                                }}
-                                _hover={{
-                                backgroundColor: "#efeafa",
-                                boxShadow: "none !important",
-                                }}
-                                key={e}
-                                w="32%"
-                            >
-                                <Text fontFamily={"Jost"} fontWeight={"700"} fontSize={24}>
-                                {e}
-                                </Text>
-                                <Flex
-                                style={{
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                                >
-                                <Text
-                                    color={"gray"}
-                                    fontFamily={"Jost"}
-                                    fontWeight={"regular"}
-                                    fontSize={20}
-                                >
-                                    {card.description}
-                                </Text>
-                                <Flex
-                                    style={{
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        alignSelf: "center"
-                                    }}
-                                >
-                                    <Text
-                                        color={"black"}
-                                        fontFamily={"Jost"}
-                                        fontWeight={"bold"}
-                                        fontSize={20}
-                                    >
-                                        Request a slot
-                                    </Text>
-                                    <ArrowForwardIcon style={{ width: "30px", height: "30px" }} />
-                                </Flex>
-                                </Flex>
-                            </Flex>
-                            );
-                        })}
-                        </Flex>
-                    </Flex>
-                </ModalBody>
-            </ModalContent>
-        </Modal>
-    )
-  }
+                  </Flex>
+                );
+              })}
+            </Flex>
+          </Flex>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={props.handleClose}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
+    </>
+  );
+}
 
-export default FindMembers
+export default FindMembers;
