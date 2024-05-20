@@ -5,18 +5,18 @@ import { Flex, Button, Text } from "@chakra-ui/react";
 
 function Login() {
   return (
-    <Flex padding={0} gap="10px" direction={"column"} style={{justifyContent: "center", alignItems: "center"}}>
-        <Flex position="relative">
+    <Flex padding={0} gap="10px" direction={"column"}>
+        <Flex position="relative" style={{justifyContent: "center", alignItems: "center"}}>
             <img src={banner} alt="Login Banner" style={{ zIndex: -1, height:"512px", width: "100vw"}} /> {/* Set z-index to -1 to place behind imagedw */}
             <img
                 src={imagedw}
                 alt="Login Image"
                 style={{
                     position: "absolute",
-                    top: "10%",
-                    left: "33%",
                     height: "528px",
                     width: "528px",
+                    top: "10%",
+                    margin: "auto"
                 }}
             />
         </Flex>
@@ -54,18 +54,21 @@ function Login() {
                 </Text>
                 <a>
                     <Button
+                        size = "lg"
                         style={{
-                        borderRadius: "20px",
+                        borderRadius: "40px",
                         padding: "8px 18px",
                         backgroundColor: "#6741a0",
                         color: "white",
-                        fontFamily: "Hanken Grotesk",
-                        fontWeight: "700",
+                        fontFamily: "Public Sans",
                         border: "1px solid white",
-                        fontSize: "16px",
+                        fontSize: "24px",
                         marginTop: "40px",
+                        height: "60px",
+                        width: "200px",
                         }}
                         _hover={{ opacity: 0.8 }}
+                        onClick={() => { window.location.href = "/home"; }}
                     >
                         Login
                     </Button>
