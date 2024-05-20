@@ -12,7 +12,7 @@ import MySubmissions from "../src/pages/MySubmissions.js";
 import Home from "../src/Views/Home/Home.js";
 import AppBar from "./components/AppBar/AppBar.js";
 import FindMembers from "./components/FindMembers.js";
-import Login from "../src/Views/Home/Login.js";
+import Login from "./Views/Login/Login.js";
 
 /*
 // Placeholder Authentication Context (replace with your implementation)
