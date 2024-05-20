@@ -44,8 +44,8 @@ const AppBar = (props) => {
           }}
         >
           <Text _hover={{ color: "gray" }} onClick={() => { window.location.href = "/home"; }}>Home</Text>
-          <Text _hover={{ color: "gray" }}>About Us</Text>
-          <Text _hover={{ color: "gray" }}>Log Out</Text>
+          <Text _hover={{ color: "gray" }} onClick={() => { window.location.href = "/about-us"; }} >About Us</Text>
+          <Text _hover={{ color: "gray" }} onClick={() => { window.location.href = "/"; }} >Log Out</Text>
         </Flex>
       </Flex>
     </Container>
