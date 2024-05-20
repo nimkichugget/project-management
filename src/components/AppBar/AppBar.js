@@ -19,7 +19,7 @@ const AppBar = (props) => {
         justifyContent={"center"}
       >
         <Flex
-          onClick={() => { window.location.href = "/"; }}
+          onClick={() => { window.location.href = "/home"; }}
         >
           <FontAwesomeIcon icon="fab fa-telegram-plane" style={{color: "#B197FC", height: "40px", width: "40px" }} />
           <Text
@@ -43,7 +43,7 @@ const AppBar = (props) => {
             fontSize: "18px",
           }}
         >
-          <Text _hover={{ color: "gray" }}>Home</Text>
+          <Text _hover={{ color: "gray" }} onClick={() => { window.location.href = "/home"; }}>Home</Text>
           <Text _hover={{ color: "gray" }}>About Us</Text>
           <Text _hover={{ color: "gray" }}>Log Out</Text>
         </Flex>

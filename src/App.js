@@ -12,6 +12,7 @@ import MySubmissions from "../src/pages/MySubmissions.js";
 import Home from "../src/Views/Home/Home.js";
 import AppBar from "./components/AppBar/AppBar.js";
 import FindMembers from "./components/FindMembers.js";
+import Login from '../src/Views/Home/Login.js'
 
 /*
 // Placeholder Authentication Context (replace with your implementation)
@@ -29,6 +30,7 @@ const App = () => {
   };
   */
 const App = () => {
+  
   return (
     //<AuthContext.Provider value={{ isAuthenticated, handleLogin, handleLogout }}>
     <>
@@ -71,7 +73,8 @@ const App = () => {
             />{" "}
             {/* Protected */}
             {/* Public routes */}
-            <Route path="/" exact element={<Home />} />
+            <Route path="/home" exact element={<Home />} />
+            <Route path="/" exact element={<Login />} />
             <Route path="/join-project" exact element={<JoinProject />} />
             <Route
               path="/view-project"

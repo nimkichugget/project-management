@@ -75,7 +75,7 @@ const Home = (props) => {
               fontFamily: "Hanken Grotesk",
             }}
           >
-            Welcome to ProjectPilot!
+            Welcome Saathvika
           </Text>
           <Text
             style={{
@@ -84,7 +84,7 @@ const Home = (props) => {
               fontFamily: "Hanken Grotesk",
             }}
           >
-            View your current courses here
+            Here are your current courses
           </Text>
         </Flex>
       </Flex>
