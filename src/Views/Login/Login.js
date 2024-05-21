@@ -1,36 +1,38 @@
 import React, { useState } from "react";
 import banner from "../Login/banner.png";
 import imagedw from "../Login/imagedw.png";
-import { useAuth } from "../../AuthContext";
 import { Flex, Button, Text } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import PersonIcon from "@mui/icons-material/Person";
-import { Modal, Box, Typography, Stack, TextField, Avatar } from "@mui/material";
+import { Modal, Box, Typography, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  //const [name, setName] = useState(""); // Add state for name
+  const navigate = useNavigate();
 
-  const handleSubmit1 = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      // Redirect or do something after login
-    } catch {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      onLogin(); // Pass the name to onLogin after successful login
+      navigate("/home"); // Navigate to home page after login
+    } catch (error) {
       alert("Failed to log in");
     }
   };
 
-  const handleSubmit2 = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Redirect or do something after signup
-    } catch {
-      alert("Failed to create an account");
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      onLogin(); // Pass the name to onLogin after successful signup
+      navigate("/home"); // Navigate to home page after signup
+    } catch (error) {
+      console.error("Error creating user account:", error.message);
+      alert(`Failed to create an account: ${error.message}`);
     }
   };
 
@@ -46,35 +48,18 @@ function Login() {
     p: 4,
   };
 
-  const [open1, setOpen1] = useState(false);
-  const [open2, setOpen2] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
 
-  const handleOpen1 = () => {
-    setOpen1(true);
-  };
-  const handleClose1 = () => {
-    setOpen1(false);
-  };
-
-  const handleOpen2 = () => {
-    setOpen2(true);
-  };
-  const handleClose2 = () => {
-    setOpen2(false);
-  };
+  const handleOpenLogin = () => setOpenLogin(true);
+  const handleCloseLogin = () => setOpenLogin(false);
+  const handleOpenSignup = () => setOpenSignup(true);
+  const handleCloseSignup = () => setOpenSignup(false);
 
   return (
-    <Flex padding={0} gap="10px" direction={"column"}>
-      <Flex
-        position="relative"
-        style={{ justifyContent: "center", alignItems: "center" }}
-      >
-        <img
-          src={banner}
-          alt="Login Banner"
-          style={{ zIndex: -1, height: "512px", width: "100vw" }}
-        />{" "}
-        {/* Set z-index to -1 to place behind imagedw */}
+    <Flex padding={0} gap="10px" direction="column">
+      <Flex position="relative" style={{ justifyContent: "center", alignItems: "center" }}>
+        <img src={banner} alt="Login Banner" style={{ zIndex: -1, height: "512px", width: "100vw" }} />
         <img
           src={imagedw}
           alt="Login Image"
@@ -87,19 +72,8 @@ function Login() {
           }}
         />
       </Flex>
-      <Flex
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "10px",
-          marginTop: "20px",
-        }}
-      >
-        <Flex
-          direction="column"
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
+      <Flex style={{ justifyContent: "center", alignItems: "center", padding: "10px", marginTop: "20px" }}>
+        <Flex direction="column" justifyContent="center" alignItems="center">
           <Text
             style={{
               fontSize: "45px",
@@ -111,13 +85,7 @@ function Login() {
           >
             ProjectPilot
           </Text>
-          <Text
-            style={{
-              fontSize: "20px",
-              color: "#596B7E",
-              fontFamily: "Public Sans",
-            }}
-          >
+          <Text style={{ fontSize: "20px", color: "#596B7E", fontFamily: "Public Sans" }}>
             NAVIGATE YOUR ACADEMIC PROJECTS WITH EASE
           </Text>
           <Flex direction="row" justifyContent="space-between">
@@ -137,7 +105,7 @@ function Login() {
                 width: "200px",
               }}
               _hover={{ opacity: 0.8 }}
-              onClick={handleOpen1}
+              onClick={handleOpenLogin}
             >
               Login
             </Button>
@@ -157,50 +125,47 @@ function Login() {
                 width: "200px",
               }}
               _hover={{ opacity: 0.8 }}
-              onClick={handleOpen2}
+              onClick={handleOpenSignup}
             >
               Sign Up
             </Button>
           </Flex>
           <Modal
-            open={open1}
-            onClose={handleClose1}
+            open={openLogin}
+            onClose={handleCloseLogin}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <form onSubmit={handleSubmit1}>
+            <form onSubmit={handleLoginSubmit}>
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Login
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   <Stack direction="column" spacing={2} alignItems="center" width="100%" justifyContent="center">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <TextField
-                        id="email"
-                        label="Enter your email"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="email"
-                        type="email"
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <TextField
-                        id="password"
-                        label="Password"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="current-password"
-                        type="password"
-                        required
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
+                    <TextField
+                      id="email"
+                      label="Enter your email"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete="email"
+                      type="email"
+                      required
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField
+                      id="password"
+                      label="Password"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete="current-password"
+                      type="password"
+                      required
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </Stack>
                   <Button
+                    type="submit"
                     size="lg"
                     style={{
                       borderRadius: "40px",
@@ -223,44 +188,41 @@ function Login() {
             </form>
           </Modal>
           <Modal
-            open={open2}
-            onClose={handleClose2}
+            open={openSignup}
+            onClose={handleCloseSignup}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <form onSubmit={handleSubmit2}>
+            <form onSubmit={handleSignupSubmit}>
               <Box sx={style}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Sign Up
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   <Stack direction="column" spacing={2} alignItems="center" width="100%" justifyContent="center">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <TextField
-                        id="email"
-                        label="Enter your email"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="email"
-                        type="email"
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <TextField
-                        id="password"
-                        label="Password"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="current-password"
-                        type="password"
-                        required
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
+                    <TextField
+                      id="email"
+                      label="Enter your email"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete="email"
+                      type="email"
+                      required
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField
+                      id="password"
+                      label="Password"
+                      variant="outlined"
+                      fullWidth
+                      autoComplete="current-password"
+                      type="password"
+                      required
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </Stack>
                   <Button
+                    type="submit"
                     size="lg"
                     style={{
                       borderRadius: "40px",

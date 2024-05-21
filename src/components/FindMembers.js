@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import Button from "@mui/material/Button";
@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Avatar from "@mui/material/Avatar";
 import { Tooltip } from '@mui/material';
+import { getTeams } from "../firestore";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -23,43 +24,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 function FindMembers(props) {
-  const cards = {
-    1: {
-      member1: "Vineet Kumar",
-      member2: "Saathvika Jali",
-    },
-    2: {
-      member1: "Vineet Kumar",
-      member2: "Saathvika Jali",
-      member3: "Vineet Kumar",
-      member4: "Vineet Kumar",
-    },
-    3: {
-      member1: "Vineet Kumar",
-      member2: "Vineet Kumar",
-      member3: "Vineet Kumar",
-      member4: "Saathvika Jali",
-    },
-    4: {
-      member1: "Vineet Kumar",
-      member2: "Vineet Kumar",
-      member3: "Saathvika Jali",
-      member4: "Vineet Kumar",
-    },
-    5: {
-      member1: "Vineet Kumar",
-      member2: "Saathvika Jali",
-      member3: "Vineet Kumar",
-      member4: "Vineet Kumar",
-    },
-    6: {
-      member1: "Vineet Kumar",
-      member2: "Saathvika Jali",
-      member3: "Vineet Kumar",
-      member4: "Vineet Kumar",
-      isFull: true,
-    },
-  };
+  const [teams, setTeams] = useState([]);
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      const fetchedTeams = await getTeams();
+      setTeams(fetchedTeams);
+    };
+    fetchTeams();
+  }, []);
+
+
   //   const [open, setOpen] = useState(false);
   const Team = ({ teamId, members }) => (
     <div>
@@ -78,19 +53,6 @@ function FindMembers(props) {
       </Flex>
     </div>
   );
-
-  //   const [currentTeamId, setCurrentTeamId] = useState(1);
-
-  //   const handleNextTeam = () => {
-  //     setCurrentTeamId((prevId) =>
-  //       prevId < Object.keys(cards).length ? prevId + 1 : 1
-  //     );
-  //   };
-
-  //   const currentTeam = cards[currentTeamId];
-  //   const members = Object.values(currentTeam).filter(
-  //     (value) => typeof value === "string"
-  //   );
 
   return (
     <>
@@ -132,8 +94,8 @@ function FindMembers(props) {
         <DialogContent dividers>
           <Flex p="15px" justifyContent={"center"} alignItems={"center"}>
             <Flex w="90%" wrap="wrap" justifyContent={"space-between"}>
-              {Object.keys(cards).map((e) => {
-                const card = cards[e];
+              {Object.keys(teams).map((e) => {
+                const card = teams[e];
                 const members = Object.values(card).filter(value => typeof value === 'string');
                 return (
                   <Flex
