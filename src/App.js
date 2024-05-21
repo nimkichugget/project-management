@@ -25,10 +25,10 @@ const App = () => {
     localStorage.setItem('userToken', 'your_token_here'); // Replace with actual token handling
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('userToken');
-  };
+  // const handleLogout = () => {
+  //   setIsAuthenticated(false);
+  //   localStorage.removeItem('userToken');
+  // };
 
   return (
     <Router>

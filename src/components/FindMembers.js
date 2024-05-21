@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -12,6 +13,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Avatar from "@mui/material/Avatar";
 import { Tooltip } from "@mui/material";
 import { getTeams } from "../firestore";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import { faTeamspeak } from "@fortawesome/free-brands-svg-icons";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -24,6 +28,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 function FindMembers(props) {
   const [teams, setTeams] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState("success");
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -32,6 +39,32 @@ function FindMembers(props) {
     };
     fetchTeams();
   }, []);
+
+  const handleClick = (index) => {
+    const team = teams.find((team) => team.id === index);
+    const participants = team.participants;
+    console.log(participants);
+
+    const isSlotEmpty = team.participants.some((p) => p.trim() === "");
+
+    // Determine the severity and message for the Snackbar
+    const severity = isSlotEmpty ? "success" : "error";
+    const message = isSlotEmpty ? "Slot requested!" : "Team full!";
+
+    // Update Snackbar state
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <>
@@ -103,7 +136,10 @@ function FindMembers(props) {
                   <Flex m="20px 0" gap="10px">
                     {team.participants.map((member, index) => (
                       <Tooltip title={member} key={index}>
-                        <Avatar sx={{ color: "#7236FF", bgcolor: "#D5E5FF" }} variant="rounded">
+                        <Avatar
+                          sx={{ color: "#7236FF", bgcolor: "#D5E5FF" }}
+                          variant="rounded"
+                        >
                           {typeof member === "string" &&
                             member
                               .split(" ")
@@ -127,6 +163,7 @@ function FindMembers(props) {
                         color: "gray",
                       }}
                       _hover={{ color: "black !important" }}
+                      onClick={() => handleClick(team.id)}
                     >
                       <Text
                         m={0}
@@ -140,6 +177,20 @@ function FindMembers(props) {
                         style={{ width: "30px", height: "30px" }}
                       />
                     </Flex>
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={6000}
+                      onClose={handleClose}
+                    >
+                      <Alert
+                        onClose={handleClose}
+                        severity={snackbarSeverity}
+                        variant="filled"
+                        sx={{ width: "100%" }}
+                      >
+                        {snackbarMessage}
+                      </Alert>
+                    </Snackbar>
                   </Flex>
                 </Flex>
               ))}

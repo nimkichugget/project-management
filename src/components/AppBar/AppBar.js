@@ -7,9 +7,8 @@ library.add(fab);
 
 const AppBar = (props) => {
   return (
-    <Container isCollapsed={props.isCollapsed} style={{ padding: "20px 50px" }}>
+    <Container style={{ padding: "20px 50px" }}>
       <Flex
-        w={props.isCollapsed ? "100%" : "100%"}
         alignItems="center"
         justifyContent={"center"}
       >

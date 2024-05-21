@@ -126,7 +126,7 @@ const ViewProject = () => {
       <Flex p="30px" justifyContent={"center"} alignItems={"center"}>
         <Box sx={{ width: "70%" }}>
           <ThemeProvider theme={theme}>
-            <Stepper activeStep={activeStep} colorScheme='purple' >
+            <Stepper activeStep={activeStep} >
               {steps.map((label, index) => {
                 const stepProps = {};
                 const labelProps = {};
