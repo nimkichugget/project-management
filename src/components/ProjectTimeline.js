@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Text } from "@chakra-ui/react"
+import { Text, Spacer, Flex, Button } from "@chakra-ui/react"
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 const steps = [
     {
@@ -16,42 +17,49 @@ const steps = [
         time: '4:05 PM',
         date: '25/08/23',
         isCompleted: true,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "Software Design Specifications",
         time: "4:05 PM",
         date: "25/08/23",
         isCompleted: true,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "More submissions",
         time: "11:34 AM",
         date: "25/08/23",
         isCompleted: false,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "More submissions",
         time: "11:34 AM",
         date: "25/08/23",
         isCompleted: false,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "More submissions",
         time: "11:34 AM",
         date: "25/08/23",
         isCompleted: false,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "More submissions",
         time: "11:34 AM",
         date: "25/08/23",
         isCompleted: false,
+        link:"https://shorturl.at/JetLy",
     },
     {
         title: "Presentation",
         time: "11:34 AM",
         date: "25/08/23",
         isCompleted: false,
+        link: "book-slot",
     },
 ];
 
@@ -91,6 +99,10 @@ const theme = createTheme({
 
 export default function ProjectTimeline() {
   const [activeStep, setActiveStep] = React.useState(2);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  const handleSlotClick = () => setIsCalendarOpen(true);
+  const handleCalendarClose = () => setIsCalendarOpen(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -105,26 +117,41 @@ export default function ProjectTimeline() {
                   ) : null
                 }
               >
-                <Text
-                    style={{
-                        fontSize: "24px",
-                        color: "black",
-                        fontFamily: "Public Sans",
-                    }}
-                    marginBottom={0}
-                >
-                    {step.title}
-                </Text>
-                <Text
-                    style={{
-                        fontSize: "16px",
-                        color: "#666666",
-                        fontFamily: "Inter",
-                    }}
-                    marginTop={0}
-                >
-                    {step.time} on {step.date}
-                </Text>
+                <Flex display="flex" flexDirection="row" minWidth="max-content" gap="2">
+                  <Box display="flex" flexDirection="column">
+                    <Text
+                        style={{
+                            fontSize: "24px",
+                            color: "black",
+                            fontFamily: "Public Sans",
+                        }}
+                        marginBottom={0}
+                    >
+                        {step.title}
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: "16px",
+                            color: "#666666",
+                            fontFamily: "Inter",
+                        }}
+                        marginTop={0}
+                    >
+                        {step.time} on {step.date}
+                    </Text>
+                  </Box>
+                  <Spacer />
+                  {step.link !== "book-slot" && (
+                    <a href={step.link}>
+                      <Text>View Attachments</Text>
+                    </a>
+                  )}
+                  {step.link === "book-slot" && (
+                    <Text onClick={handleSlotClick} cursor="pointer">
+                      Book a Slot
+                    </Text>
+                  )}
+                </Flex>
               </StepLabel>
             </Step>
           ))}
@@ -134,6 +161,25 @@ export default function ProjectTimeline() {
             <Typography>All steps completed - you&apos;re finished</Typography>
           </Paper>
         )}
+        {isCalendarOpen && <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Box>
+            <DateCalendar onClose={handleCalendarClose} />
+            <Button
+              style={{
+                borderRadius: "20px",
+                padding: "8px 18px",
+                backgroundColor: "#6741a0",
+                color: "white",
+                fontFamily: "Hanken Grotesk",
+                fontWeight: "700",
+                border: "1px solid white",
+                fontSize: "16px",
+                marginTop: "40px",
+              }}
+              _hover={{ opacity: 0.8 }}
+              onClick={handleCalendarClose}>Close Calendar</Button>
+            </Box>
+        </LocalizationProvider>}
       </Box>
     </ThemeProvider>
   );
