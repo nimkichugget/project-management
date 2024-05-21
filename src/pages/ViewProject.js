@@ -1,221 +1,204 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
-import { Container, Flex, Text } from "@chakra-ui/react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import FormTeam from "../components/FormTeam";
-import UploadSubmission from "../components/UploadSubmission";
-import ProjectTimeline from "../components/ProjectTimeline";
-import { ThemeProvider } from "@emotion/react";
-import { createTheme } from '@mui/material/styles';
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import { Flex, Text, FormControl, Button, Input } from '@chakra-ui/react';
+import PersonIcon from '@mui/icons-material/Person';
+import FindMembers from '../components/FindMembers';
+import { addTeam, getTeams } from '../firestore'; // Import Firestore service functions
 
-// const steps = [
-//   { title: "Form a Team", description: "Contact Info" },
-//   { title: "Project Timeline", description: "Date & Time" },
-//   { title: "Submit Files", description: "Select Rooms" },
-//   { title: "View Grades", description: "Select Rooms" },
-// ];
+const ParticipantInput = ({ participantNumber, participant, setParticipant }) => (
+  <Flex
+    w="400px"
+    gap="10px"
+    direction="column"
+    style={{ marginBottom: '20px' }}
+  >
+    <Flex
+      justifyContent="flex-start"
+      alignItems="center"
+      gap="10px"
+      style={{
+        color: '#6741a0',
+        fontFamily: 'Hanken Grotesk',
+        fontWeight: 'bold',
+        fontSize: '16px',
+      }}
+    >
+      <PersonIcon />
+      Participant {participantNumber}
+    </Flex>
+    <Input
+      style={{
+        backgroundColor: '#f0f0f0',
+        padding: '0px 20px',
+        height: '40px',
+        borderRadius: '7px',
+        border: '1px solid gray',
+      }}
+      placeholder="Participant ID"
+      value={participant}
+      onChange={(e) => setParticipant(participantNumber - 1, e.target.value)}
+    />
+  </Flex>
+);
 
-const steps = [
-  "Form a Team",
-  "Project Timeline",
-  "Submit Files",
-  "View Grades",
-];
+const TeamForm = ({ onSubmit }) => {
+  const [participants, setParticipants] = useState(['', '', '', '']);
+  const [teams, setTeams] = useState([]);
+  const [open, setOpen] = useState(false);
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#6741a0', // Your desired purple shade
-    },
-  },
-  overrides: {
-    MuiStepper: {
-      root: {
-        backgroundColor: 'transparent', // Optional for better contrast
-      },
-      horizontal: {
-        '& .MuiStepConnector-line': {
-          borderColor: '#7c4dff!important', // Adjust connector color
-        },
-      },
-      vertical: {
-        '& .MuiStepConnector-line': {
-          borderColor: '#7c4dff!important', // Adjust connector color
-        },
-        '& .MuiStep-completed .MuiStepIcon-root': {
-          color: '#7c4dff', // Color for completed step icon
-        },
-        '& .MuiStep-active .MuiStepIcon-root': {
-          color: '#7c4dff', // Color for active step icon
-        },
-      },
-    },
-  },
-});
-
-const ViewProject = () => {
-  // const { projectId } = useParams();
-  // const [projectDetails, setProjectDetails] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const details = await fetchProjectDetails(projectId);
-  //     setProjectDetails(details);
-  //   };
-  //   fetchData();
-  // }, [projectId]);
-
-  // if (!projectDetails) {
-  //   return <div>Loading project details...</div>;
-  // }
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
+  const setParticipant = (index, value) => {
+    const newParticipants = [...participants];
+    newParticipants[index] = value;
+    setParticipants(newParticipants);
   };
 
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleFormSubmit = async () => {
+    if (participants.filter(p => p.trim() !== '').length < 2) {
+      alert('Please fill at least two participant IDs');
+      return;
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
+    const team = { participants };
+    await addTeam(team);
+    fetchTeams(); // Refresh the team list after adding a new team
+    handleReset(); // Reset the input fields
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    setParticipants(['', '', '', '']); // Reset the input fields
   };
 
+  const fetchTeams = async () => {
+    const fetchedTeams = await getTeams();
+    setTeams(fetchedTeams);
+  };
+
+  useEffect(() => {
+    fetchTeams();
+  }, []);
+
   return (
-    <Container>
-      <Flex
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#d0c1ef",
-          padding: "20px 50px",
-        }}
-      >
+    <Flex w="100%">
+      <Flex w="50%" direction="column">
+        <Text
+          style={{
+            margin: '0',
+            fontWeight: 'semibold',
+            fontSize: '20px',
+            color: 'gray',
+            fontFamily: 'Public Sans',
+          }}
+        >
+          FORM A TEAM
+        </Text>
+        <Text
+          style={{
+            margin: 0,
+            marginTop: '5px',
+            fontWeight: 'semibold',
+            fontSize: '26px',
+            color: '#141E28',
+            fontFamily: 'Domine',
+          }}
+        >
+          Semester Project Title
+        </Text>
+        <Text
+          style={{
+            margin: 0,
+            marginTop: '40px',
+            fontWeight: 'semibold',
+            fontSize: '24px',
+            color: '#2E455D',
+            fontFamily: 'Public Sans',
+          }}
+        >
+          Pre-requisites
+        </Text>
+        <ol
+          style={{
+            fontFamily: 'Public Sans',
+            fontSize: '18px',
+            color: '#2E455D',
+          }}
+        >
+          <li>Team Size: 4 students</li>
+          <li>Skills required: HTML, CSS, JAVASCRIPT, C++</li>
+          <li>Project Duration: 3 months</li>
+          <li>Team formation deadline: 30th May</li>
+        </ol>
+      </Flex>
+      <Flex w="50%" justifyContent="center">
         <Flex
           direction="column"
-          justifyContent={"center"}
-          alignItems={"center"}
+          style={{
+            border: '1px solid gray',
+            borderRadius: '20px',
+            padding: '20px',
+          }}
         >
-          <Text
-            style={{
-              fontSize: "40px",
-              // fontFamily: "Hanken Grotesk",
-              fontFamily: "Poppins",
-            }}
-          >
-            What&apos;s your main focus for today?
-          </Text>
-          <Text
-            style={{
-              fontSize: "24px",
-              color: "#666666",
-              fontFamily: "Hanken Grotesk",
-            }}
-          >
-            CS3212 - SOFTWARE ENGINEERING
-          </Text>
+          <FormControl isRequired>
+            {[1, 2, 3, 4].map((participantNumber) => (
+              <ParticipantInput
+                key={participantNumber}
+                participantNumber={participantNumber}
+                participant={participants[participantNumber - 1]}
+                setParticipant={setParticipant}
+              />
+            ))}
+          </FormControl>
+          <Flex margin="10px 0px" justifyContent="space-between">
+            <Button
+              style={{
+                borderRadius: '20px',
+                padding: '10px 20px',
+                backgroundColor: 'white',
+                color: '#6741a0',
+                fontFamily: 'Hanken Grotesk',
+                fontWeight: '700',
+                border: '1px solid #6741a0',
+                fontSize: '16px',
+              }}
+              _hover={{ opacity: 0.8 }}
+              onClick={handleFormSubmit}
+            >
+              Freeze Team
+            </Button>
+            <Button
+              style={{
+                borderRadius: '20px',
+                padding: '8px 18px',
+                backgroundColor: '#6741a0',
+                color: 'white',
+                fontFamily: 'Hanken Grotesk',
+                fontWeight: '700',
+                border: '1px solid white',
+                fontSize: '16px',
+              }}
+              _hover={{ opacity: 0.8 }}
+              onClick={handleClickOpen}
+            >
+              Find Members
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
-      <Flex p="30px" justifyContent={"center"} alignItems={"center"}>
-        <Box sx={{ width: "70%" }}>
-          <ThemeProvider theme={theme}>
-            <Stepper activeStep={activeStep} colorScheme='purple' >
-              {steps.map((label, index) => {
-                const stepProps = {};
-                const labelProps = {};
-                if (isStepSkipped(index)) {
-                  stepProps.completed = false;
-                }
-                return (
-                  <Step key={label} {...stepProps} >
-                    <StepLabel {...labelProps}>{label}</StepLabel>
-                  </Step>
-                );
-              })}
-            </Stepper>
-          </ThemeProvider>
-          {activeStep === steps.length ? (
-            <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Reset</Button>
-              </Box>
-            </>
-          ) : activeStep === 0 ? (
-              <Flex
-                style={{ margin: "20px", padding: "20px" }}
-                direction={"column"}
-              >
-                <FormTeam />
-              </Flex>
-          ) : activeStep === 1 ? (
-            <>
-              <Flex
-                style={{ margin: "20px", padding: "20px" }}
-                direction={"column"}
-              >
-                <ProjectTimeline />
-              </Flex>
-            </>
-          ) : activeStep === 2 ? (
-            <>
-              <Flex
-                style={{ margin: "20px", padding: "20px" }}
-                direction={"column"}
-              >
-                <UploadSubmission />
-              </Flex>
-            </>
-          ) : null}
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
-        </Box>
-      </Flex>
-    </Container>
+      {open && (
+        <FindMembers
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+        />
+      )}
+    </Flex>
   );
 };
 
-export default ViewProject;
+export default TeamForm;

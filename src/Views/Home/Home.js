@@ -89,7 +89,7 @@ const Home = ({ userName }) => {
           {Object.keys(cards).map((e) => {
             const card = cards[e];
             return (
-              <Link to="/form-team" key={e} style={{ textDecoration: 'none' }}>
+              <Link to="/view-project" key={e} style={{ textDecoration: 'none' }}>
                 <Flex
                   className="parent"
                   direction={"column"}
