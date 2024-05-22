@@ -38,9 +38,9 @@ const AppBar = ({ onLogout }) => {
             fontSize: "18px",
           }}
         >
-          <Link style={{textDecoration: "none"}} to="/home">Home</Link>
-          <Link style={{textDecoration: "none"}} to="/about-us">About Us</Link>
-          <Text style={{textDecoration: "none"}} _hover={{ color: "gray" }} onClick={() => onLogout && onLogout() }>Log Out</Text>
+          <Link style={{textDecoration: "none", color: "black"}} _hover={{ color: "gray" }} to="/home">Home</Link>
+          <Link style={{textDecoration: "none", color: "black"}} _hover={{ color: "gray" }} to="/about-us">About Us</Link>
+          <Text style={{textDecoration: "none", color: "black"}} _hover={{ color: "gray" }} onClick={() => onLogout && onLogout() }>Log Out</Text>
         </Flex>
       </Flex>
     </Container>

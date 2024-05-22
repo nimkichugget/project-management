@@ -18,17 +18,17 @@ const ProtectedRoute = ({ isAuthenticated, children }) => {
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('userToken') !== null // Check for token on initial render
+    localStorage.getItem('userToken') !== null 
   );
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    localStorage.setItem('userToken', 'your_token_here'); // Replace with actual token handling
+    localStorage.setItem('userToken', 'your_token_here'); 
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('userToken'); // Remove token on logout
+    localStorage.removeItem('userToken'); 
   };
   
 
