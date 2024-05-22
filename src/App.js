@@ -5,6 +5,7 @@ import ViewProject from "../src/pages/ViewProject";
 import Home from "../src/Views/Home/Home";
 import AppBar from "./components/AppBar/AppBar";
 import Login from "./Views/Login/Login";
+import AboutUs from "./Views/AboutUs";
 
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   const location = useLocation();
@@ -25,15 +26,16 @@ const App = () => {
     localStorage.setItem('userToken', 'your_token_here'); // Replace with actual token handling
   };
 
-  // const handleLogout = () => {
-  //   setIsAuthenticated(false);
-  //   localStorage.removeItem('userToken');
-  // };
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('userToken'); // Remove token on logout
+  };
+  
 
   return (
     <Router>
       <Box>
-        {isAuthenticated && <AppBar width="100%" name={"Project Management Console"} />}
+        {isAuthenticated && <AppBar onLogout={handleLogout} width="100%" name={"Project Management Console"} />}
         <Box component="main" sx={{ flexGrow: 1, transition: "margin-left 0.3s ease" }}>
           <Routes>
             {/* Public routes */}
@@ -53,6 +55,14 @@ const App = () => {
               element={
                 <ProtectedRoute isAuthenticated={isAuthenticated}>
                   <ViewProject />
+                </ProtectedRoute>
+              }
+            />
+          <Route
+              path="/about-us"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <AboutUs />
                 </ProtectedRoute>
               }
             />

@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import FormTeam from "../components/FormTeam";
 import UploadSubmission from "../components/UploadSubmission";
 import ProjectTimeline from "../components/ProjectTimeline";
+import GradingForm from "../components/GradingForm";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from '@mui/material/styles';
 
@@ -174,6 +175,15 @@ const ViewProject = () => {
                 direction={"column"}
               >
                 <UploadSubmission />
+              </Flex>
+            </>
+          ) : activeStep === 3 ? (
+            <>
+              <Flex
+                style={{ margin: "20px", padding: "20px" }}
+                direction={"column"}
+              >
+                <GradingForm />
               </Flex>
             </>
           ) : null}

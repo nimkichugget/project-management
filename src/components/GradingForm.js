@@ -1,42 +1,193 @@
-import React, { useState } from 'react';
-import { Form, FormControl, FormLabel, Input, Textarea, Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Text, Flex, Button } from "@chakra-ui/react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 
-const GradingForm = ({ studentSubmissions, onSubmit }) => {
-  const [grades, setGrades] = useState({}); // Object to store student grades
+const steps = [
+  {
+    title: "Software Requirement Specifications",
+    time: "4:05 PM",
+    date: "25/08/23",
+    isCompleted: true,
+    grade: 10,
+  },
+  {
+    title: "Software Design Specifications",
+    time: "4:05 PM",
+    date: "25/08/23",
+    isCompleted: true,
+    grade: 8
+  },
+  {
+    title: "More submissions",
+    time: "11:34 AM",
+    date: "25/08/23",
+    isCompleted: false,
+  },
+  {
+    title: "More submissions",
+    time: "11:34 AM",
+    date: "25/08/23",
+    isCompleted: false,
+    link: "https://shorturl.at/JetLy",
+  },
+  {
+    title: "More submissions",
+    time: "11:34 AM",
+    date: "25/08/23",
+    isCompleted: false,
+    link: "https://shorturl.at/JetLy",
+  },
+  {
+    title: "More submissions",
+    time: "11:34 AM",
+    date: "25/08/23",
+    isCompleted: false,
+    link: "https://shorturl.at/JetLy",
+  },
+  {
+    title: "Presentation",
+    time: "11:34 AM",
+    date: "25/08/23",
+    isCompleted: false,
+    link: "book-slot",
+  },
+];
 
-  const handleGradeChange = (studentId, value) => {
-    setGrades({ ...grades, [studentId]: value });
-  };
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Public Sans", "sans-serif"].join(","), // Add Public Sans to the font stack
+  },
+  palette: {
+    primary: {
+      main: "#42aa53", // Your desired purple shade
+    },
+  },
+  overrides: {
+    MuiStepper: {
+      root: {
+        backgroundColor: "transparent", // Optional for better contrast
+      },
+      horizontal: {
+        "& .MuiStepConnector-line": {
+          borderColor: "#7c4dff!important", // Adjust connector color
+        },
+      },
+      vertical: {
+        "& .MuiStepConnector-line": {
+          borderColor: "#7c4dff!important", // Adjust connector color
+        },
+        "& .MuiStep-completed .MuiStepIcon-root": {
+          color: "#42aa53", // Color for completed step icon
+        },
+        "& .MuiStep-active .MuiStepIcon-root": {
+          color: "#6741a0", // Color for active step icon
+        },
+      },
+    },
+  },
+});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(grades);
-  };
+export default function GradingForm() {
+  const [activeStep, setActiveStep] = React.useState(2);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  const handleSlotClick = () => setIsCalendarOpen(true);
+  const handleCalendarClose = () => setIsCalendarOpen(false);
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Table variant="simple">
-        <Tbody>
-          {studentSubmissions.map((submission) => (
-            <Tr key={submission.studentId}>
-              <Th>{submission.studentName}</Th>
-              <Td>
-                <FormControl>
-                  <Input type="number" value={grades[submission.studentId] || ''} onChange={(e) => handleGradeChange(submission.studentId, e.target.value)} />
-                </FormControl>
-              </Td>
-              <Td>
-                <FormControl>
-                  <Textarea value={grades[submission.studentId]?.feedback || ''} onChange={(e) => setGrades({ ...grades, [submission.studentId]: { ...grades[submission.studentId], feedback: e.target.value } })} />
-                </FormControl>
-              </Td>
-            </Tr>
+    <ThemeProvider theme={theme}>
+      <Box w="100%">
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {steps.map((step, index) => (
+            <Step key={step.label}>
+              <StepLabel
+                optional={
+                  index === step.length ? (
+                    <Typography variant="caption">Last step</Typography>
+                  ) : null
+                }
+              >
+                <Flex
+                  w="100%"
+                  minWidth="max-content"
+                  justifyContent={"space-between"}
+                >
+                  <Flex flexDirection="column">
+                    <Text
+                      style={{
+                        fontSize: "24px",
+                        color: "black",
+                        fontFamily: "Public Sans",
+                      }}
+                      marginBottom={0}
+                    >
+                      {step.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        color: "#666666",
+                        fontFamily: "Inter",
+                      }}
+                      marginTop={0}
+                    >
+                      {step.time} on {step.date}
+                    </Text>
+                  </Flex>
+                  {/* <Spacer /> */}
+                  {step.grade && <Text
+                    style={{
+                      marginTop: "50px",
+                      fontSize: "24px"
+                    }}
+                  >
+                    {step.grade}
+                  </Text>}
+                </Flex>
+              </StepLabel>
+            </Step>
           ))}
-        </Tbody>
-      </Table>
-      <Button type="submit">Submit Grades</Button>
-    </Form>
+        </Stepper>
+        {activeStep === steps.length && (
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+          </Paper>
+        )}
+        {isCalendarOpen && (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box>
+              <DateCalendar onClose={handleCalendarClose} />
+              <Button
+                style={{
+                  borderRadius: "20px",
+                  padding: "8px 18px",
+                  backgroundColor: "#6741a0",
+                  color: "white",
+                  fontFamily: "Hanken Grotesk",
+                  fontWeight: "700",
+                  border: "1px solid white",
+                  fontSize: "16px",
+                  marginTop: "40px",
+                }}
+                _hover={{ opacity: 0.8 }}
+                onClick={handleCalendarClose}
+              >
+                Close Calendar
+              </Button>
+            </Box>
+          </LocalizationProvider>
+        )}
+      </Box>
+    </ThemeProvider>
   );
-};
-
-export default GradingForm;
+}
