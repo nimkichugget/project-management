@@ -5,7 +5,7 @@ import ViewProject from "../src/pages/ViewProject";
 import Home from "../src/Views/Home/Home";
 import AppBar from "./components/AppBar/AppBar";
 import Login from "./Views/Login/Login";
-import AboutUs from "./Views/AboutUs";
+import AboutUs from "./Views/AboutUs/AboutUs";
 
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   const location = useLocation();
